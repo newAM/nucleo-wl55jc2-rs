@@ -15,8 +15,8 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: thumbv7em-none-eabihf
-      - run: RUSTFLAGS="-D warnings" cargo build --target thumbv7em-none-eabihf
+          target: thumbv7em-none-eabi
+      - run: RUSTFLAGS="-D warnings" cargo build --target thumbv7em-none-eabi
 
   clippy_check:
     name: Clippy
@@ -27,11 +27,11 @@ jobs:
         with:
           toolchain: stable
           components: clippy
-          target: thumbv7em-none-eabihf
+          target: thumbv7em-none-eabi
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: --target thumbv7em-none-eabihf
+          args: --target thumbv7em-none-eabi
 
   format_check:
     name: Rust Format
