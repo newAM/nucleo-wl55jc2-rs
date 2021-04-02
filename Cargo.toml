@@ -1,0 +1,20 @@
+[package]
+name = "nucleo-wl55jc2"
+version = "0.1.0"
+authors = ["Alex M. <alexmgit@protonmail.com>"]
+edition = "2018"
+license = "MIT"
+readme = "README.md"
+description = "Boilerplate for the Nucleo-WL55JC2 development board."
+
+[badges]
+maintenance = { status = "experimental" }
+
+[dependencies]
+rtt-target = { version = "~0.3.0", features = ["cortex-m"] }
+cortex-m = "~0.7.2"
+cortex-m-rt = "~0.6.13"
+
+[dependencies.stm32wl]
+version = "~0.13.0"
+features = ["stm32wle5"]
