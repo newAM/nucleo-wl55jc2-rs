@@ -5,6 +5,9 @@
 
 Rust boilerplate for the Nucleo-WL55JC2 development board.
 
+There is no HAL for the MCU yet, but there is a work-in-progress driver for the
+sub-GHz radio here: [stm32wl-subghz]
+
 This board uses the [STM32WL55JC] MCU.
 
 ## Linux Probe Setup
@@ -46,6 +49,7 @@ with the logging output from the MCU.
 This is a dual core system, but this boilerplate code completely ignores the
 M0+ core.
 
+[stm32wl-subghz]: https://github.com/newAM/stm32wl-subghz
 [cargo-embed]: https://crates.io/crates/cargo-embed
 [STM32WL55JC]: https://www.st.com/en/microcontrollers-microprocessors/stm32wl55jc.html#documentation
 [udev rules]: https://wiki.debian.org/udev
