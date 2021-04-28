@@ -11,7 +11,7 @@ description = "Boilerplate for the Nucleo-WL55JC2 development board."
 maintenance = { status = "experimental" }
 
 [dependencies]
-rtt-target = { version = "~0.3.0", features = ["cortex-m"] }
+rtt-target = { version = "~0.3.1", features = ["cortex-m"] }
 cortex-m = "~0.7.2"
 cortex-m-rt = "~0.6.13"
 
