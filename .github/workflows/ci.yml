@@ -28,7 +28,7 @@ jobs:
           toolchain: stable
           components: clippy
           target: thumbv7em-none-eabi
-      - uses: actions-rs/clippy-check@v1
+      - uses: actions-rs/clippy-check@v1.0.7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --target thumbv7em-none-eabi
