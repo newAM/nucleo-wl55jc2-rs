@@ -1,8 +1,8 @@
 # see https://github.com/probe-rs/cargo-embed/blob/HEAD/src/config/default.toml
 
 [default.probe]
-vid = 0x0483
-pid = 0x374e
+usb_vid = "0483"
+usb_pid = "374e"
 protocol = "Swd"
 
 [default.general]
