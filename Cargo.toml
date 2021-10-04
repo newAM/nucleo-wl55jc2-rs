@@ -16,5 +16,5 @@ cortex-m = "~0.7.3"
 cortex-m-rt = "~0.6.15"
 
 [dependencies.stm32wl]
-version = "~0.13.0"
+version = "~0.14.0"
 features = ["stm32wle5"]
