@@ -198,9 +198,9 @@ dependencies = [
 
 [[package]]
 name = "stm32wlxx-hal"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fcec4fe08dde9c51bf779159543914955c91d07d50feba2946a57d21b8d96a16"
+checksum = "d7553bbb5646568d007a4fd1db59968029d4baa85aa3ad12fa3719a4ff074d8a"
 dependencies = [
  "cfg-if",
  "cortex-m",
