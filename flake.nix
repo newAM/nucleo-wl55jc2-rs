@@ -7,8 +7,18 @@
         crossSystem = nixpkgs.lib.systems.examples.arm-embedded // {
           rustc.config = "thumbv7em-none-eabi";
         };
-        system = "x86_64-linux";
         config.allowUnsupportedSystem = true;
+        system = "x86_64-linux";
+        overlays = [
+          (final: prev: {
+            rustc = prev.rustc.overrideAttrs (oA: {
+              postConfigure = oA.postConfigure + ''
+                substituteInPlace config.toml \
+                  --replace '#docs = true' 'docs = false`
+              '';
+            });
+          })
+        ];
       };
     in
     {
