@@ -43,17 +43,7 @@
         inherit (pkgs) cargo;
       };
       packages.x86_64-linux.default = pkgs.callPackage ./package.nix {
-        buildRustPackage = pkgs.callPackage "${nixpkgs}/pkgs/build-support/rust/build-rust-package" { 
-            git = pkgs.gitMinimal;
-            inherit (packages.x86_64-linux) rustc;
-            stdenv = thumbv7emPkgs.stdenv.override {
-              hostPlatform = thumbv7emPkgs.stdenv.targetPlatform;
-              targetPlatform = thumbv7emPkgs.stdenv.targetPlatform;
-              #buildPlatform = thumbv7emPkgs.stdenv.targetPlatform;
-            };
-            inherit (packages.x86_64-linux.rustPlatform) cargoBuildHook cargoCheckHook cargoInstallHook cargoSetupHook
-              fetchCargoTarball importCargoLock;
-          };
+        inherit (packages.x86_64-linux) rustPlatform;
       };
     };
 }

@@ -1,13 +1,11 @@
 { lib
-#, rustPlatform
-, buildRustPackage
+, rustPlatform
 }:
 
 let
   cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
 in
-#rustPlatform.buildRustPackage {
-buildRustPackage {
+rustPlatform.buildRustPackage {
   inherit (cargoToml.package) version;
   pname = cargoToml.package.name;
 
