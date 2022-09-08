@@ -1,5 +1,6 @@
 { lib
 , rustPlatform
+, lld
 }:
 
 let
@@ -12,6 +13,10 @@ rustPlatform.buildRustPackage {
   src = ./.;
 
   cargoLock.lockFile = ./Cargo.lock;
+
+  nativeBuildInputs = [
+    lld
+  ];
 
   # no tests for no_std
   doCheck = false;
