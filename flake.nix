@@ -5,7 +5,6 @@
     let
       pkgs = import nixpkgs {
         system = "x86_64-linux";
-        config.allowUnsupportedSystem = true;
         overlays = [
           (final: prev: {
             rustc = prev.rustc.overrideAttrs (oA: {
@@ -30,12 +29,8 @@
       packages.x86_64-linux.rustc = pkgs.rustc.override {
         stdenv = pkgs.stdenv.override {
           targetPlatform = thumbv7emPkgs.stdenv.targetPlatform;
-          hostPlatform = pkgs.stdenv.hostPlatform;
-          buildPlatform = pkgs.stdenv.buildPlatform;
         };
-        pkgsBuildBuild = pkgs;
-        pkgsBuildHost = pkgs;
-        pkgsBuildTarget.targetPackages.stdenv.cc = pkgs.pkgsCross.arm-embedded.stdenv.cc;
+        pkgsBuildTarget.targetPackages.stdenv.cc = thumbv7emPkgs.stdenv.cc;
         enableRustcDev = false;
       };
       packages.x86_64-linux.rustPlatform = thumbv7emPkgs.makeRustPlatform {
