@@ -24,49 +24,36 @@
           rustc.config = "thumbv7em-none-eabi";
         };
         config.allowUnsupportedSystem = true;
-        overlays = [
-          (final: prev: {
-            rustc = prev.rustc.overrideAttrs (oA: {
-              RUSTFLAGS = "-Ccodegen-units=32";
-              postConfigure = oA.postConfigure + ''
-                echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                exit 1
-                substituteInPlace config.toml \
-                  --replace '#docs = true' 'docs = false'
-              '';
-            });
-          })
-        ];
       };
     in
-    {
+    rec {
       packages.x86_64-linux.rustc = pkgs.rustc.override {
         stdenv = pkgs.stdenv.override {
           targetPlatform = thumbv7emPkgs.stdenv.targetPlatform;
           hostPlatform = pkgs.stdenv.hostPlatform;
           buildPlatform = pkgs.stdenv.buildPlatform;
-          #{ rustc.config = "thumbv7em-none-eabi"; };
-          #targetPlatform = nixpkgs.lib.recursiveUpdate pkgs.multiStdenv.hostPlatform {
-          #  rustc.config = "thumbv7em-none-eabi";
-          #};
-          #targetPlatform = thumbv7emPkgs.stdenv.targetPlatform;
         };
         pkgsBuildBuild = pkgs;
         pkgsBuildHost = pkgs;
         pkgsBuildTarget.targetPackages.stdenv.cc = pkgs.pkgsCross.arm-embedded.stdenv.cc;
-        #gcc-arm-embedded;
-        #thumbv7emPkgs.targetPackages.stdenv.cc;
-        #= nixpkgs.lib.recursiveUpdate pkgs {
-        #  targetPackages 
-        #};
-#        pkgsBuildTarget = thumbv7emPkgs;
         enableRustcDev = false;
       };
+      packages.x86_64-linux.rustPlatform = thumbv7emPkgs.makeRustPlatform {
+        inherit (packages.x86_64-linux) rustc;
+        inherit (pkgs) cargo;
+      };
       packages.x86_64-linux.default = pkgs.callPackage ./package.nix {
-        rustPlatform = pkgs.makeRustPlatform {
-          inherit (pkgs.pkgsCross.arm-embedded) rustc;
-          inherit (pkgs) cargo;
-        };
+        buildRustPackage = pkgs.callPackage "${nixpkgs}/pkgs/build-support/rust/build-rust-package" { 
+            git = pkgs.gitMinimal;
+            inherit (packages.x86_64-linux) rustc;
+            stdenv = thumbv7emPkgs.stdenv.override {
+              hostPlatform = thumbv7emPkgs.stdenv.targetPlatform;
+              targetPlatform = thumbv7emPkgs.stdenv.targetPlatform;
+              #buildPlatform = thumbv7emPkgs.stdenv.targetPlatform;
+            };
+            inherit (packages.x86_64-linux.rustPlatform) cargoBuildHook cargoCheckHook cargoInstallHook cargoSetupHook
+              fetchCargoTarball importCargoLock;
+          };
       };
     };
 }
