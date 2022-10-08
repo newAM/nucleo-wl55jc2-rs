@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:newAM/nixpkgs/rustc-fix-embedded";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
 
   outputs = { self, nixpkgs }:
     let
