@@ -2,7 +2,7 @@
 runner = "probe-run --chip STM32WLE5JCIx --connect-under-reset"
 rustflags = [
     "-C", "link-arg=-Tlink.x",
-    "-C", "linker=lld"
+    "-C", "linker=flip-link"
 ]
 
 [build]
