@@ -2,11 +2,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    crane.url = "github:ipetkov/crane";
-    crane.inputs.nixpkgs.follows = "nixpkgs";
-
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
+    crane.url = "github:ipetkov/crane";
+    crane.inputs.nixpkgs.follows = "nixpkgs";
+    crane.inputs.rust-overlay.follows = "rust-overlay";
   };
 
   outputs = {
@@ -39,24 +40,12 @@
       ];
     };
 
-    cargoArtifacts = craneLib.buildDepsOnly (commonArgs
-      // {
-        # Adds !#[no_std] to top of dummy build file.
-        # Replaces --all-targets with --lib --bins --tests
-        # all-targets normally includes --benches and --tests as well, which
-        # do not work for no_std targets.
-        buildPhaseCargoCommand = ''
-          sed -i '1s/^/#![no_std]/' src/lib.rs
-          cargoWithProfile check --lib --bins --examples ${commonArgs.cargoExtraArgs}
-          cargoWithProfile build ${commonArgs.cargoExtraArgs}
-        '';
-      });
+    cargoArtifacts = craneLib.buildDepsOnly commonArgs;
   in {
-    packages.x86_64-linux.default = craneLib.buildPackage (
+    packages.x86_64-linux.default = craneLib.buildPackage (nixpkgs.lib.recursiveUpdate
       commonArgs
-      // {
+      {
         inherit cargoArtifacts;
-      }
-    );
+      });
   };
 }
