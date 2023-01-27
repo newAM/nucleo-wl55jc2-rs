@@ -12,7 +12,7 @@ fn panic(info: &core::panic::PanicInfo) -> ! {
     if let Some(mut channel) = unsafe { rtt_target::UpChannel::conjure(0) } {
         channel.set_mode(rtt_target::ChannelMode::BlockIfFull);
 
-        writeln!(channel, "{}", info).ok();
+        writeln!(channel, "{info}").ok();
     }
 
     loop {
